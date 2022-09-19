@@ -62,6 +62,44 @@
         console.log('Erro ao incluir ')
       }
     }
+
+    function lista(){
+       // Solicitando uma transação de leitura e escrita para objetc store negociacoes
+       let transaction = connection.transaction(['negociacoes'], 'readwrite');
+
+      // store agora esta configurada para 
+      let store = transaction.objectStore('negociacoes')
+
+      // devolve um ponteiro para nevegar entre o banco 
+      let cursor = store.openCursor()
+
+      let negociacoes = []
+      let negociacoes_indexDB = []
+      
+      cursor.onsuccess = e => {
+        let ponteroAtual = e.target.result
+
+        if(ponteroAtual){
+          console.log('ponteroAtual.value', ponteroAtual.value)
+          var dado = ponteroAtual.value
+
+          negociacoes.push(new Negociacao(dado._data, dado._quantidade, dado._valor))
+          negociacoes_indexDB.push(dado)
+
+          ponteroAtual.continue()
+        }else{
+          console.log('ACABOU OS DADOS')
+          console.log('Todos os dados obtidos', negociacoes)
+          console.log('Todos os dados obtidos', negociacoes_indexDB)
+        }
+      }
+
+      cursor.onerror = e => {
+        console.log('Erro', e)
+      }
+    }
+
+
   </script>
 </body>
 </html>
