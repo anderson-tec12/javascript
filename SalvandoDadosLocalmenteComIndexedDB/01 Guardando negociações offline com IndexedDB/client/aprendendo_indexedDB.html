@@ -7,13 +7,14 @@
   <title>Aprendnedo indexedDB </title>
 </head>
 <body>
+  <script src="js/app/models/Negociacao.js"></script>
   <script>
 
     let connection
 
     // solicitar uma abertura com o banco 
     // open nescessida de 2 parametros nome do banco e a versao
-    let openRequest = window.indexedDB.open('aluraframe',2)
+    let openRequest = window.indexedDB.open('aluraframe',3)
 
     //Apos solicitar temos que trabalhar coma a tread de eventos 
 
@@ -22,7 +23,11 @@
 
       let myConnection = e.target.result
 
-      myConnection.createObjectStore('negociacoes')
+      if(myConnection.objectStoreNames.contains('negociacoes')){
+        myConnection.deleteObjectStore('negociacoes')
+      }
+
+      myConnection.createObjectStore('negociacoes',{autoIncrement:true})
     }
 
     openRequest.onsuccess = function(e){
@@ -36,6 +41,27 @@
       console.log(e.target.error)
     }
     
+
+    function adiciona(){
+      // Solicitando uma transação de leitura e escrita para objetc store negociacoes
+      let transaction = connection.transaction(['negociacoes'], 'readwrite');
+
+      // store agora esta configurada para 
+      let store = transaction.objectStore('negociacoes')
+
+      let negociacao = new Negociacao(new Date(), 1, 200)
+
+      // fazendo uma requsição de adição
+      let request = store.add(negociacao)
+
+      request.onsuccess = e => {
+        console.log('Negociação incluida no banco com sucesso')
+      }
+
+      request.onerror = e => {
+        console.log('Erro ao incluir ')
+      }
+    }
   </script>
 </body>
 </html>
