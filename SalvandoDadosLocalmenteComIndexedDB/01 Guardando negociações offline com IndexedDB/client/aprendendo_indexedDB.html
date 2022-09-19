@@ -8,19 +8,27 @@
 </head>
 <body>
   <script>
+
+    let connection
+
     // solicitar uma abertura com o banco 
     // open nescessida de 2 parametros nome do banco e a versao
-    let openRequest = window.indexedDB.open('aluraframe',1)
+    let openRequest = window.indexedDB.open('aluraframe',2)
 
     //Apos solicitar temos que trabalhar coma a tread de eventos 
 
-
     openRequest.onupgradeneeded = function (e){
       console.log('Cria ou altera um banco existente')
+
+      let myConnection = e.target.result
+
+      myConnection.createObjectStore('negociacoes')
     }
 
     openRequest.onsuccess = function(e){
       console.log('conexão obtida com sucesso')
+
+      connection = e.target.result
     }
 
     openRequest.onerror = function(e){
