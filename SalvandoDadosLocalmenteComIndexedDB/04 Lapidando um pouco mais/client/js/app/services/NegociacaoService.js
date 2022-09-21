@@ -90,5 +90,26 @@ class NegociacaoService {
             })
             
     }
+
+    lista(){
+        return ConnectionFactory
+            .getConnection()
+            .then(connection => new NegociacaoDao(connection))
+            .then(dao => dao.listaTodos())
+            .catch(() => {
+                throw new Error('Não foi possivel lista todas as negociação')
+            })
+    }
+
+    apaga(){
+        return ConnectionFactory
+            .getConnection()
+            .then(connection => new NegociacaoDao(connection))
+            .then(dao => dao.apagaTodos())
+            .then(() => 'Negociações apagadas' )
+            .catch(() => {
+                throw new Error('Não foi possivel apagar todas as negociação')
+            })
+    }
 }
 
