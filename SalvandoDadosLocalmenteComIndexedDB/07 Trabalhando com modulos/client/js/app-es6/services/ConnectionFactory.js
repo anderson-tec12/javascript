@@ -1,5 +1,5 @@
 
-var ConnectionFactory = (function () {
+
 
     const stores = ['negociacoes'];
     const version = 4;
@@ -9,7 +9,7 @@ var ConnectionFactory = (function () {
 
     var close = null;
 
-    return class ConnectionFactory {
+    export  class ConnectionFactory {
 
         constructor() {
 
@@ -73,4 +73,3 @@ var ConnectionFactory = (function () {
     }
 
     
-})();
