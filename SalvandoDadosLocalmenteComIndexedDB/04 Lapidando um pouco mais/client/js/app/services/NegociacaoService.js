@@ -111,5 +111,18 @@ class NegociacaoService {
                 throw new Error('Não foi possivel apagar todas as negociação')
             })
     }
+
+    importa(listaAtual){
+        return this.obterNegociacoes()
+            .then(negociacoes => negociacoes.filter(negociacao => 
+                !listaAtual.some(negociacaoExistente => 
+                    JSON.stringify(negociacao) === JSON.stringify(negociacaoExistente)) 
+                )
+            )
+            .catch(erro => {
+                throw new Error('Não foi possivel listar todas as negociações')
+            })
+             
+    }
 }
 
