@@ -14,4 +14,17 @@ class HttpService {
             .then(res => res.json())
             
     }
+
+    post(url, dato){
+        return fetch(url, {
+            headers:{
+                'Content-Type':'application/json',
+                method:'post',
+                body: JSON.stringify(dato)
+            }
+        })
+        .then(res => _handleErrors(res))
+        .then(res => res.json())
+
+    }
 }
